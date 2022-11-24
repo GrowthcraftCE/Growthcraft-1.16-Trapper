@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class SpawnEggTrapMenu extends AbstractContainerMenu {
@@ -40,7 +40,7 @@ public class SpawnEggTrapMenu extends AbstractContainerMenu {
         addPlayerHotbar(inventory);
 
         // Add our block's inventory slots.
-        this.spawnEggTrapBlockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.spawnEggTrapBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                     // 1 Input Slot
                     this.addSlot(new SlotItemHandler(handler, 0, 17, 20));
                     // 6 Output Slots
