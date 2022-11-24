@@ -8,5 +8,6 @@
   "block.growthcraft_trapper.spawneggtrap": "Netherite Animal Trap",
   "container.growthcraft_trapper.fishtrap": "Fishtrap",
   "container.growthcraft_trapper.spawneggtrap": "Netherite Animal Trap",
-  "subtitle.fishtrap_open": "Fishtrap Opened"
+  "subtitle.fishtrap_open": "Fishtrap Opened",
+  "itemGroup.growthcraft_trapper": "Growthcraft Trapper"
 }
