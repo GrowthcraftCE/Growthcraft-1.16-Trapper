@@ -1,9 +1,9 @@
 package growthcraft.trapper.shared;
 
+import growthcraft.trapper.init.GrowthcraftTrapperBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 public class Reference {
     public static final String MODID = "growthcraft_trapper";
