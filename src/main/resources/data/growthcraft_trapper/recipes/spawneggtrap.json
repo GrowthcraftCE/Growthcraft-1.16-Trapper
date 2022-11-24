@@ -8,17 +8,17 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:spruce_planks"
+      "item": "minecraft:netherite_ingot"
     },
     "B": {
-      "item": "minecraft:lead"
+      "item": "minecraft:bucket"
     },
     "C": {
-      "item": "minecraft:string"
+      "item": "minecraft:iron_bars"
     }
   },
   "result": {
-    "item": "growthcraft_trapper:fishtrap_spruce",
+    "item": "growthcraft_trapper:spawneggtrap",
     "count": 1
   }
 }

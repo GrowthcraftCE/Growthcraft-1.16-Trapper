@@ -25,6 +25,7 @@ public class BlockPropertiesUtils {
                 properties.sound(SoundType.WOOD);
                 properties.strength(2.0F, 3.0F);
                 properties.noOcclusion();
+                properties.requiresCorrectToolForDrops();
                 properties.isValidSpawn(BlockPropertiesUtils::never);
                 properties.isRedstoneConductor(BlockPropertiesUtils::never);
                 properties.isSuffocating(BlockPropertiesUtils::never);

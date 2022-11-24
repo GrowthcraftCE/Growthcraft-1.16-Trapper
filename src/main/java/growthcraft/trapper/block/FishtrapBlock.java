@@ -39,7 +39,6 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
     public FishtrapBlock() {
         super(BlockPropertiesUtils.getInitProperties("fishtrap_wooden", Blocks.OAK_PLANKS));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
-
     }
 
     @Override

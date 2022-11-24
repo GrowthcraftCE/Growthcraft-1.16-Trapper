@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "growthcraft_trapper:fishtrap_acacia"
+          "name": "growthcraft_trapper:spawneggtrap"
         }
       ],
       "conditions": [
