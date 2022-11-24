@@ -11,7 +11,7 @@ public class Reference {
     public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab(Reference.MODID) {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(Items.TROPICAL_FISH);
+            return new ItemStack(GrowthcraftTrapperBlocks.FISHTRAP_OAK);
         }
     };
 
