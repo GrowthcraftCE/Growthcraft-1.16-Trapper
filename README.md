@@ -2,7 +2,7 @@
 
 # Growthcraft Trapper 7 for Minecraft 1.18 (Forge)
 
-[![Version](https://img.shields.io/badge/Growthcraft-8.0.0-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-Trapper)
+[![Version](https://img.shields.io/badge/Growthcraft-8.0.1-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-Trapper)
 [![](http://cf.way2muchnoise.eu/versions/growthcraft-community-edition_latest.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![](http://cf.way2muchnoise.eu/short_growthcraft-community-edition.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![Discord](https://img.shields.io/discord/333690296334548994.svg?color=green)](https://discord.gg/Quh76Jn)
