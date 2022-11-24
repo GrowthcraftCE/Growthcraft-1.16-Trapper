@@ -8,7 +8,7 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:oak_planks"
+      "item": "minecraft:spruce_planks"
     },
     "B": {
       "item": "minecraft:lead"
@@ -18,7 +18,7 @@
     }
   },
   "result": {
-    "item": "growthcraft_trapper:fishtrap_oak",
+    "item": "growthcraft_trapper:fishtrap_spruce",
     "count": 1
   }
 }
