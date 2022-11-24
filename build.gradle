@@ -36,6 +36,8 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'growthcraft_trapper'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 gowthcraft_trapper {
@@ -49,6 +51,8 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'growthcraft_trapper'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 growthcraft_trapper {
@@ -62,6 +66,8 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'growthcraft_trapper'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 growthcraft_trapper {
@@ -74,6 +80,8 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             args '--mod', 'growthcraft_deco', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
@@ -90,17 +98,15 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    // JEI, Tinker's Construct, Mantle, Iron Chests, Natura, etc.
-    maven { url = "https://dvs1.progwml6.com/files/maven" }
-    // The One Probe
-    maven { url = "https://maven.tterrag.com/" }
-    // Patchouli
-    maven { url = 'https://maven.blamejared.com' }
+    // Curse Forge
+    maven { url "https://www.cursemaven.com" }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    runtimeOnly fg.deobf("curse.maven:jei-${curseforge_jei}")
+    runtimeOnly fg.deobf("curse.maven:theoneprobe-${curseforge_theoneprobe}")
+    runtimeOnly fg.deobf("curse.maven:patchouli-${curseforge_patchouli}")
 }
 
 jar {
