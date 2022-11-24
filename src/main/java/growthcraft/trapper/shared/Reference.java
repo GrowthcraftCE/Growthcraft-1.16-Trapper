@@ -1,9 +1,9 @@
 package growthcraft.trapper.shared;
 
+import growthcraft.trapper.init.GrowthcraftTrapperBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 public class Reference {
     public static final String MODID = "growthcraft_trapper";
@@ -11,7 +11,7 @@ public class Reference {
     public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab(Reference.MODID) {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(Items.TROPICAL_FISH);
+            return new ItemStack(GrowthcraftTrapperBlocks.FISHTRAP_OAK.get());
         }
     };
 
