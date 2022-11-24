@@ -17,6 +17,8 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -51,8 +53,8 @@ import java.util.Map;
 
 public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityTicker<SpawnEggTrapBlockEntity>, MenuProvider {
 
-    private final int minTick = TickUtils.toTicks(1, "minutes");
-    private final int maxTick = TickUtils.toTicks(5, "minutes");
+    private final int minTick = TickUtils.toTicks(GrowthcraftTrapperConfig.getMinTickTrappingInMinutes(), "minutes");
+    private final int maxTick = TickUtils.toTicks(GrowthcraftTrapperConfig.getMaxTickTrappingInMinutes(), "minutes");
     private int tickTimer = 0;
     private int tickCooldown = 0;
 
@@ -144,6 +146,8 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
         }
 
         itemStackHandler.getStackInSlot(0).shrink(1);
+
+        this.getLevel().playSound(null, this.worldPosition, SoundEvents.TRIPWIRE_CLICK_ON, SoundSource.BLOCKS, 0.5F, 0.5F);
 
     }
 

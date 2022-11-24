@@ -52,9 +52,8 @@ import java.util.Map;
 
 public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicker<FishtrapBlockEntity>, MenuProvider {
 
-    // TODO: Add configuration setting for setting the server wide min/max ticking bounds.
-    private final int minTickFishing = TickUtils.toTicks(1, "minutes");
-    private final int maxTickFishing = TickUtils.toTicks(5, "minutes");
+    private final int minTickFishing = TickUtils.toTicks(GrowthcraftTrapperConfig.getMinTickFishingInMinutes(), "minutes");
+    private final int maxTickFishing = TickUtils.toTicks(GrowthcraftTrapperConfig.getMaxTickFishingInMinutes(), "minutes");
     private final ItemStackHandler itemStackHandler = new ItemStackHandler(7) {
         @Override
         protected void onContentsChanged(int slot) {
@@ -170,7 +169,7 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
 
         itemStackHandler.getStackInSlot(0).shrink(1);
 
-        this.getLevel().playSound(null, this.worldPosition, SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.BLOCKS, 1.0f, 1.0f);
+        this.getLevel().playSound(null, this.worldPosition, SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.BLOCKS, 0.5F, 0.5F);
 
     }
 
