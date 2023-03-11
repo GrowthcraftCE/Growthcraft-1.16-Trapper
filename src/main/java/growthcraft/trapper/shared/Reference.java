@@ -1,23 +1,13 @@
 package growthcraft.trapper.shared;
 
-import growthcraft.trapper.init.GrowthcraftTrapperBlocks;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 
 public class Reference {
     public static final String MODID = "growthcraft_trapper";
 
-    public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab(Reference.MODID) {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(GrowthcraftTrapperBlocks.FISHTRAP_OAK.get());
-        }
-    };
-
     public static final String NAME = "Growthcraft Trapper";
     public static final String NAME_SHORT = "trapper";
-    public static final String VERSION = "8.0.1";
+    public static final String VERSION = "8.1.0";
 
     private Reference() { /* Prevent default public constructor */ }
 

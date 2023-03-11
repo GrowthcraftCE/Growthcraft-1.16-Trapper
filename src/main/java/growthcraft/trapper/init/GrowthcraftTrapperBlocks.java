@@ -67,11 +67,10 @@ public class GrowthcraftTrapperBlocks {
 
     private static Item.Properties getDefaultItemProperties() {
         Item.Properties properties = new Item.Properties();
-        properties.tab(Reference.CREATIVE_TAB);
         return properties;
     }
 
-    private static boolean excludeBlockItemRegistry(ResourceLocation registryName) {
+    public static boolean excludeBlockItemRegistry(ResourceLocation registryName) {
         ArrayList<String> excludeBlocks = new ArrayList<>();
         //excludeBlocks.add(Reference.MODID + ":" + Reference.UnlocalizedName.APPLE_TREE_FRUIT);
         return excludeBlocks.contains(registryName.toString());
