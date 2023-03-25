@@ -9,9 +9,7 @@ import growthcraft.trapper.init.config.GrowthcraftTrapperConfig;
 import growthcraft.trapper.shared.Reference;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -21,11 +19,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.lang.reflect.Field;
 
 @Mod(Reference.MODID)
 @Mod.EventBusSubscriber(modid = Reference.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -36,6 +31,7 @@ public class GrowthcraftTrapper {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetupEvent);
+        modEventBus.addListener(this::registerCreativeModeTab);
 
         GrowthcraftTrapperConfig.loadConfig();
 
@@ -64,7 +60,7 @@ public class GrowthcraftTrapper {
     }
 
     public void registerCreativeModeTab(CreativeModeTabEvent.Register event) {
-        GrowthcraftTrapper.LOGGER.warn("CREATIVE_TAB_DECO is registering ...");
+        GrowthcraftTrapper.LOGGER.warn("CREATIVE_TAB_TRAPPER is registering ...");
 
         event.registerCreativeModeTab(new ResourceLocation(Reference.MODID, "tab"), builder ->
                 // Set name of tab to display
@@ -72,36 +68,22 @@ public class GrowthcraftTrapper {
                         // Set icon of creative tab
                         .icon(() -> new ItemStack(GrowthcraftTrapperBlocks.FISHTRAP_OAK.get()))
                         // Add default items to tab
-                        .displayItems((enabledFlags, populator, hasPermissions) -> {
+                        .displayItems((params, output) -> {
                             // Add blocks
-                            for (Field field : GrowthcraftTrapperBlocks.class.getFields()) {
-                                if (field.getType() != RegistryObject.class) continue;
-
-                                try {
-                                    RegistryObject<Block> block = (RegistryObject) field.get(null);
-                                    if (!GrowthcraftTrapperBlocks.excludeBlockItemRegistry(block.getId())) {
-                                        populator.accept(new ItemStack(block.get()));
+                            GrowthcraftTrapperBlocks.BLOCKS.getEntries().forEach(
+                                    blockRegistryObject -> {
+                                        if (!GrowthcraftTrapperBlocks.excludeBlockItemRegistry(blockRegistryObject.getId())) {
+                                            output.accept(new ItemStack(blockRegistryObject.get()));
+                                        }
                                     }
-                                } catch (IllegalAccessException e) {
-
-                                }
-                            }
-
+                            );
                             // Add items
-                            for (Field field : GrowthcraftTrapperItems.class.getFields()) {
-                                if (field.getType() != RegistryObject.class) continue;
-
-                                try {
-                                    RegistryObject<Item> item = (RegistryObject) field.get(null);
-                                    if (!GrowthcraftTrapperItems.excludeItemRegistry(item.getId())) {
-                                        populator.accept(new ItemStack(item.get()));
-                                    }
-                                } catch (IllegalAccessException e) {
-
+                            GrowthcraftTrapperItems.ITEMS.getEntries().forEach(itemRegistryObject -> {
+                                if (!GrowthcraftTrapperItems.excludeItemRegistry(itemRegistryObject.getId())) {
+                                    output.accept(new ItemStack(itemRegistryObject.get()));
                                 }
-                            }
+                            });
                         })
         );
     }
-
 }
