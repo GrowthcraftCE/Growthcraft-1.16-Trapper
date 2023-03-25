@@ -1,10 +1,11 @@
 {
-  "block.growthcraft_trapper.fishtrap_oak": "Fishtrap (Oak)",
   "block.growthcraft_trapper.fishtrap_acacia": "Fishtrap (Acacia)",
   "block.growthcraft_trapper.fishtrap_birch": "Fishtrap (Birch)",
   "block.growthcraft_trapper.fishtrap_dark_oak": "Fishtrap (Dark Oak)",
   "block.growthcraft_trapper.fishtrap_jungle": "Fishtrap (Jungle)",
+  "block.growthcraft_trapper.fishtrap_oak": "Fishtrap (Oak)",
   "block.growthcraft_trapper.fishtrap_spruce": "Fishtrap (Spruce)",
+  "block.growthcraft_trapper.spawneggtrap": "Netherite Animal Trap",
   "container.growthcraft_trapper.fishtrap": "Fishtrap",
   "container.growthcraft_trapper.spawneggtrap": "Netherite Animal Trap",
   "subtitle.fishtrap_open": "Fishtrap Opened"

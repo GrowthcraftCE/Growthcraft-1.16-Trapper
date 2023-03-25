@@ -6,6 +6,9 @@ import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
 import growthcraft.trapper.utils.BlockPropertiesUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +27,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class SpawnEggTrapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
@@ -38,7 +42,19 @@ public class SpawnEggTrapBlock extends BaseEntityBlock implements SimpleWaterlog
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        // TODO: Add GUI interaction
+        if (!level.isClientSide) {
+            // Play sound
+            level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            // Open the menu container
+            try {
+                SpawnEggTrapBlockEntity blockEntity = (SpawnEggTrapBlockEntity) level.getBlockEntity(blockPos);
+                NetworkHooks.openGui(((ServerPlayer) player), blockEntity, blockPos);
+            } catch (Exception ex) {
+                GrowthcraftTrapper.LOGGER.error(String.format("%s unable to open SpawnEggBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
+            }
+        } else {
+            // Do nothing
+        }
         return InteractionResult.SUCCESS;
     }
 

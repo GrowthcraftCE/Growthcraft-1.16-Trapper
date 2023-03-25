@@ -52,13 +52,10 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
                 FishtrapBlockEntity blockEntity = (FishtrapBlockEntity) level.getBlockEntity(blockPos);
                 NetworkHooks.openGui(((ServerPlayer) player), blockEntity, blockPos);
             } catch (Exception ex) {
-                //GrowthcraftTrapper.LOGGER.error(String.format("%s unable to open FishtrapBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
-                //GrowthcraftTrapper.LOGGER.error(ex.getMessage());
-
+                GrowthcraftTrapper.LOGGER.error(String.format("%s unable to open FishtrapBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
             }
-
         } else {
-
+            // Do nothing
         }
 
         return InteractionResult.SUCCESS;

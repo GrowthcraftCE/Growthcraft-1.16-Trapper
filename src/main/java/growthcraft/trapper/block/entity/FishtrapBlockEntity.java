@@ -2,7 +2,6 @@ package growthcraft.trapper.block.entity;
 
 import growthcraft.lib.utils.BlockStateUtils;
 import growthcraft.lib.utils.TickUtils;
-import growthcraft.trapper.GrowthcraftTrapper;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
 import growthcraft.trapper.init.GrowthcraftTrapperTags;
 import growthcraft.trapper.screen.FishtrapMenu;
@@ -150,8 +149,6 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
 
         List<ItemStack> lootItemStacks = lootTable.getRandomItems(lootContext$builder.create(LootContextParamSets.EMPTY));
         for (ItemStack itemStack : lootItemStacks) {
-            GrowthcraftTrapper.LOGGER.warn(String.format("Caught a %s from %s loot table.", itemStack, lootTableType));
-
             for (int i = 1; i < itemStackHandler.getSlots(); i++) {
                 ItemStack storedItemStack = itemStackHandler.getStackInSlot(i);
                 if (itemStackHandler.getStackInSlot(i).isEmpty() || storedItemStack.getItem() == itemStack.getItem()) {

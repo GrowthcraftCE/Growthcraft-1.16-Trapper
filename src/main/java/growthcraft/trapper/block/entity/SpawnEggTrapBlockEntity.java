@@ -2,8 +2,8 @@ package growthcraft.trapper.block.entity;
 
 import growthcraft.lib.utils.BlockStateUtils;
 import growthcraft.lib.utils.TickUtils;
-import growthcraft.trapper.GrowthcraftTrapper;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
+import growthcraft.trapper.screen.SpawnEggTrapMenu;
 import growthcraft.trapper.shared.Reference;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -120,10 +120,6 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
 
         List<ItemStack> lootItemStacks = lootTable.getRandomItems(lootContext$builder.create(LootContextParamSets.EMPTY));
         for (ItemStack itemStack : lootItemStacks) {
-            GrowthcraftTrapper.LOGGER.warn(
-                    String.format("Caught a %s from %s loot table.", itemStack, lootTableType)
-            );
-
             if (itemStack.getItem() != Items.AIR) {
                 for (int i = 1; i < itemStackHandler.getSlots(); i++) {
                     ItemStack storedItemStack = itemStackHandler.getStackInSlot(i);
@@ -207,8 +203,7 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        //return new FishtrapMenu(containerId, inventory, this);
-        return null;
+        return new SpawnEggTrapMenu(containerId, inventory, this);
     }
 
     @NotNull
