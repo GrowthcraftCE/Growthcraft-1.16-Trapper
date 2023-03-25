@@ -27,7 +27,7 @@ println("Build Version: ${growthcraft_version}")
 println('----------------------------------------')
 
 minecraft {
-    mappings channel: 'official', version: '1.19.3'
+    mappings channel: 'official', version: '1.19.4'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -104,9 +104,10 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    runtimeOnly fg.deobf("curse.maven:jei-${curseforge_jei}")
     runtimeOnly fg.deobf("curse.maven:theoneprobe-${curseforge_theoneprobe}")
-    runtimeOnly fg.deobf("curse.maven:patchouli-${curseforge_patchouli}")
+    // TODO: 2023.03.24 - Not available for 1.19.4
+    //runtimeOnly fg.deobf("curse.maven:jei-${curseforge_jei}")
+    //runtimeOnly fg.deobf("curse.maven:patchouli-${curseforge_patchouli}")
 }
 
 jar {
