@@ -15,15 +15,24 @@ authors = "Alatyami"
 description = '''Growtchraft Trapper is a realistic and immersive Forge mod that adds various new trapping elements to the game of Minecraft.
     '''
 
-[[dependencies.growthcraft_trapper]] #optional
+[[dependencies.growthcraft_trapper]]
 modId = "forge" #mandatory
 mandatory = true #mandatory
 versionRange = "[45,)" #mandatory
 ordering = "NONE"
 side = "BOTH"
+
 [[dependencies.growthcraft_trapper]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.19.4,1.20)"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.growthcraft_trapper]]
+modId = "growthcraft"
+mandatory = false
+versionRange = "[8,)"
+ordering = "AFTER"
+side = "BOTH"
+
