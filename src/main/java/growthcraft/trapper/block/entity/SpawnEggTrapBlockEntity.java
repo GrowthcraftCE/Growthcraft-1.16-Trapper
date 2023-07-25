@@ -15,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -34,22 +33,22 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityTicker<SpawnEggTrapBlockEntity>, MenuProvider {
 
@@ -112,21 +111,39 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
     }
 
     private void doTrapping(@NotNull BlockPos blockPos) {
+        if (level == null) return;
+
         ItemStack baitItemStack = itemStackHandler.getStackInSlot(0);
 
-        LootContext.Builder lootContext$builder = new LootContext.Builder((ServerLevel) level);
-
-        String lootTableType = "";
+        LootDataManager lootDataManager = Objects.requireNonNull(level.getServer()).getLootData();
         LootTable lootTable;
 
+        String lootTableType = "";
+
         // Depending on the bait that was used, determines what gets caught.
-        if (baitItemStack.getItem() == Items.WHEAT) {
+        if (baitItemStack.is(Items.WHEAT)) {
             lootTableType = "wheat";
         }
 
-        lootTable = getLootTable(lootTableType);
+        // TODO: Add additional baits.
 
-        List<ItemStack> lootItemStacks = lootTable.getRandomItems(lootContext$builder.create(LootContextParamSets.EMPTY));
+        switch (lootTableType) {
+            case "wheat":
+                lootTable = lootDataManager.getElement(LootDataType.TABLE, Reference.LootTables.SPAWNEGGTRAP_WHEAT);
+                break;
+            default:
+                lootTable = lootDataManager.getElement(LootDataType.TABLE, BuiltInLootTables.EMPTY);
+        }
+
+        // If loot table is null, fail now.
+        if (lootTable == null) return;
+
+        LootParams lootContext = new LootParams.Builder((ServerLevel) level)
+                .withParameter(LootContextParams.ORIGIN, new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()))
+                .create(LootContextParamSets.EMPTY);
+
+        List<ItemStack> lootItemStacks = lootTable.getRandomItems(lootContext);
+
         for (ItemStack itemStack : lootItemStacks) {
             if (GrowthcraftTrapperConfig.isDebugEnabled() && (tickTimer % 100 == 0)) {
                 GrowthcraftTrapper.LOGGER.debug(
@@ -149,21 +166,6 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
 
         this.getLevel().playSound(null, this.worldPosition, SoundEvents.TRIPWIRE_CLICK_ON, SoundSource.BLOCKS, 0.5F, 0.5F);
 
-    }
-
-    private LootTable getLootTable(String tableType) {
-        ResourceLocation lootTable;
-
-        switch (tableType) {
-            case "wheat":
-                lootTable = Reference.LootTables.SPAWNEGGTRAP_WHEAT;
-                break;
-            default:
-                lootTable = BuiltInLootTables.EMPTY;
-                break;
-        }
-
-        return ServerLifecycleHooks.getCurrentServer().getLootTables().get(lootTable);
     }
 
     @Nullable

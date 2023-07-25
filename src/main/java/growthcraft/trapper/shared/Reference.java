@@ -25,6 +25,7 @@ public class Reference {
         public static final String TAG_FISHING_BAIT = "fishing_bait";
 
         public static final String SOUND_FISHTRAP_OPEN = "fishtrap_open";
+        public static final String CREATIVE_TAB = "tab";
 
         private UnlocalizedName() { /* Disable default public constructor. */ }
 

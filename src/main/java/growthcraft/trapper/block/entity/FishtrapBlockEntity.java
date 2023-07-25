@@ -15,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -26,6 +25,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -33,22 +34,22 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.*;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicker<FishtrapBlockEntity>, MenuProvider {
 
@@ -127,37 +128,42 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
     }
 
     private void doFishing(BlockPos blockPos) {
+        if (level == null) return;
+
         // Check for any bait in slot 0
         ItemStack baitItemStack = itemStackHandler.getStackInSlot(0);
 
-        LootContext.Builder lootContext$builder = new LootContext.Builder((ServerLevel) level);
+        LootDataManager lootDataManager = Objects.requireNonNull(level.getServer()).getLootData();
 
-        String lootTableType = "";
         LootTable lootTable;
 
-        // Check if this is fortune based bait.
+        int luck = 0;
+
+        // Virtual Fishing Rod for calculating the loot tables.
+        ItemStack fishingRod = new ItemStack(Items.FISHING_ROD);
+
         if (baitItemStack.is(GrowthcraftTrapperTags.Items.FISHTRAP_BAIT_FORTUNE)) {
-            // Fish from the Fortune Loot Table
-            lootTableType = "fortune";
-            lootContext$builder.withLuck(3.0f);
+            luck = 3;
+            fishingRod.enchant(Enchantments.FISHING_LUCK, luck);
+            // Fish from the Treasure Loot Table
+            lootTable = lootDataManager.getElement(LootDataType.TABLE, BuiltInLootTables.FISHING_TREASURE);
         } else if (baitItemStack.is(GrowthcraftTrapperTags.Items.FISHTRAP_BAIT)) {
             // Fish from the Standard Loot Table
-            lootTableType = "standard";
+            lootTable = lootDataManager.getElement(LootDataType.TABLE, BuiltInLootTables.FISHING);
         } else {
             // Fish from the Junk Loot Table
-            lootTableType = "junk";
+            lootTable = lootDataManager.getElement(LootDataType.TABLE, BuiltInLootTables.FISHING_JUNK);
         }
 
-        lootTable = getLootTable(lootTableType);
+        LootParams lootContext = new LootParams.Builder((ServerLevel) level)
+                .withLuck(luck)
+                .withParameter(LootContextParams.ORIGIN, new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ()))
+                .withParameter(LootContextParams.TOOL, fishingRod)
+                .create(LootContextParamSets.FISHING);
 
-        List<ItemStack> lootItemStacks = lootTable.getRandomItems(lootContext$builder.create(LootContextParamSets.EMPTY));
+        List<ItemStack> lootItemStacks = lootTable.getRandomItems(lootContext);
+
         for (ItemStack itemStack : lootItemStacks) {
-            if (GrowthcraftTrapperConfig.isDebugEnabled() && (tickTimer % 100 == 0)) {
-                GrowthcraftTrapper.LOGGER.debug(
-                        String.format("FishtrapBlockEntity [%s] - doTrapping - Caught a %s from %s loot table.", blockPos.toShortString(), itemStack, lootTableType)
-                );
-            }
-
             for (int i = 1; i < itemStackHandler.getSlots(); i++) {
                 ItemStack storedItemStack = itemStackHandler.getStackInSlot(i);
                 if (itemStackHandler.getStackInSlot(i).isEmpty() || storedItemStack.getItem() == itemStack.getItem()) {
@@ -171,24 +177,6 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
 
         this.getLevel().playSound(null, this.worldPosition, SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.BLOCKS, 0.5F, 0.5F);
 
-    }
-
-    private LootTable getLootTable(String tableType) {
-        ResourceLocation lootTable;
-
-        switch (tableType) {
-            case "fortune":
-                lootTable = BuiltInLootTables.FISHING_TREASURE;
-                break;
-            case "standard":
-                lootTable = BuiltInLootTables.FISHING_FISH;
-                break;
-            default:
-                lootTable = BuiltInLootTables.FISHING_JUNK;
-                break;
-        }
-
-        return ServerLifecycleHooks.getCurrentServer().getLootTables().get(lootTable);
     }
 
     @Nullable
