@@ -24,7 +24,7 @@ public class SpawnEggTrapMenu extends AbstractContainerMenu {
     private final Level level;
 
     public SpawnEggTrapMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(containerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()));
     }
 
     public SpawnEggTrapMenu(int containerId, Inventory inventory, BlockEntity blockEntity) {
@@ -32,19 +32,20 @@ public class SpawnEggTrapMenu extends AbstractContainerMenu {
 
         checkContainerSize(inventory, 7);
         this.spawnEggTrapBlockEntity = (SpawnEggTrapBlockEntity) blockEntity;
-        this.spawnEggTrapBlock = (SpawnEggTrapBlock) inventory.player.level.getBlockEntity(this.spawnEggTrapBlockEntity.getBlockPos()).getBlockState().getBlock();
 
-        this.level = inventory.player.level;
+        this.spawnEggTrapBlock = (SpawnEggTrapBlock) inventory.player.level().getBlockEntity(this.spawnEggTrapBlockEntity.getBlockPos()).getBlockState().getBlock();
+
+        this.level = inventory.player.level();
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
 
         // Add our block's inventory slots.
         this.spawnEggTrapBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                    // 1 Input Slot
-                    this.addSlot(new SlotItemHandler(handler, 0, 17, 20));
-                    // 6 Output Slots
-                    for (int i = 0; i < 6; i++) {
+            // 1 Input Slot
+            this.addSlot(new SlotItemHandler(handler, 0, 17, 20));
+            // 6 Output Slots
+            for (int i = 0; i < 6; i++) {
                         this.addSlot(new ResultSlot(handler, i + 1, 44 + (i * 18), 20));
                     }
                 }

@@ -32,7 +32,10 @@ public class Reference {
     }
 
     public static class LootTables {
-        public static final ResourceLocation SPAWNEGGTRAP_WHEAT = new ResourceLocation(Reference.MODID, "spawneggtrap_wheat");
+        public static final ResourceLocation SPAWNEGGTRAP_WHEAT = new ResourceLocation(Reference.MODID, "gameplay/trapping/spawneggtrap_wheat");
+        public static final ResourceLocation FISHTRAP_BAIT = new ResourceLocation(Reference.MODID, "gameplay/trapping/fishtrap_bait");
+        public static final ResourceLocation FISHTRAP_BAIT_FORTUNE = new ResourceLocation(Reference.MODID, "gameplay/trapping/fishtrap_bait_fortune");
+        public static final ResourceLocation FISHTRAP_BAIT_JUNK = new ResourceLocation(Reference.MODID, "gameplay/trapping/fishtrap_bait_junk");
     }
 
 }

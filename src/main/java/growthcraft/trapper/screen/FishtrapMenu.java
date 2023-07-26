@@ -24,7 +24,7 @@ public class FishtrapMenu extends AbstractContainerMenu {
     private final Level level;
 
     public FishtrapMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerId, inventory, inventory.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(containerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()));
     }
 
     public FishtrapMenu(int containerId, Inventory inventory, BlockEntity blockEntity) {
@@ -32,9 +32,9 @@ public class FishtrapMenu extends AbstractContainerMenu {
 
         checkContainerSize(inventory, 7);
         this.fishtrapBlockEntity = (FishtrapBlockEntity) blockEntity;
-        this.fishtrapBlock = (FishtrapBlock) inventory.player.level.getBlockEntity(this.fishtrapBlockEntity.getBlockPos()).getBlockState().getBlock();
+        this.fishtrapBlock = (FishtrapBlock) inventory.player.level().getBlockEntity(this.fishtrapBlockEntity.getBlockPos()).getBlockState().getBlock();
 
-        this.level = inventory.player.level;
+        this.level = inventory.player.level();
 
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);

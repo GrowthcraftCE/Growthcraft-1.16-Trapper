@@ -40,7 +40,7 @@ public class SpawnEggTrapScreen extends AbstractContainerScreen<SpawnEggTrapMenu
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int p_97809_, int p_97810_) {
         guiGraphics.drawString(this.font, this.title,
-                this.titleLabelX, this.titleLabelY, 4210752);
+                this.titleLabelX, this.titleLabelY, 4210752, false);
         guiGraphics.drawString(this.font, this.playerInventoryTitle,
                 this.inventoryLabelX, this.inventoryLabelY - 32, 4210752, false);
     }

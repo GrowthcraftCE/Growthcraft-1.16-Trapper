@@ -87,7 +87,7 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
         }
 
         tickTimer++;
-        if (tickTimer > tickCooldown && canDoTrapping(level, blockPos)) {
+        if (tickCooldown != 0 && tickTimer > tickCooldown && canDoTrapping(level, blockPos)) {
             this.doTrapping(blockPos);
             tickTimer = 0;
             tickCooldown = TickUtils.getRandomTickCooldown(minTick, maxTick);
@@ -121,7 +121,7 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
         String lootTableType = "";
 
         // Depending on the bait that was used, determines what gets caught.
-        if (baitItemStack.is(Items.WHEAT)) {
+        if (baitItemStack.getItem() == Items.WHEAT) {
             lootTableType = "wheat";
         }
 

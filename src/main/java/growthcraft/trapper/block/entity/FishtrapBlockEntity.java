@@ -86,7 +86,7 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
         }
 
         tickTimer++;
-        if (tickTimer > tickCooldown && canDoFishing(level, blockPos)) {
+        if (tickCooldown != 0 && tickTimer > tickCooldown && canDoFishing(level, blockPos)) {
             this.doFishing(blockPos);
             tickTimer = 0;
             tickCooldown = TickUtils.getRandomTickCooldown(minTickFishing, maxTickFishing);

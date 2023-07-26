@@ -35,7 +35,6 @@ public class FishtrapScreen extends AbstractContainerScreen<FishtrapMenu> {
         renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, delta);
         renderTooltip(poseStack, mouseX, mouseY);
-
     }
 
     @Override
