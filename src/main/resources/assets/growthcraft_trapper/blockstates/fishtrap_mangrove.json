@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "growthcraft_trapper:block/fishtrap_mangrove"
+    },
+    "facing=south": {
+      "model": "growthcraft_trapper:block/fishtrap_mangrove",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "growthcraft_trapper:block/fishtrap_mangrove",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "growthcraft_trapper:block/fishtrap_mangrove",
+      "y": 90
+    },
+    "facing=up": {
+      "model": "growthcraft_trapper:block/fishtrap_mangrove",
+      "x": -90
+    },
+    "facing=down": {
+      "model": "growthcraft_trapper:block/fishtrap_mangrove",
+      "x": 90
+    }
+  }
+}

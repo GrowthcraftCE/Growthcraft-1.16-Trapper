@@ -48,6 +48,31 @@ public class GrowthcraftTrapperBlocks {
             FishtrapBlock::new
     );
 
+    public static final RegistryObject<Block> FISHTRAP_BAMBOO = registerBlock(
+            Reference.UnlocalizedName.FISHTRAP_BAMBOO,
+            FishtrapBlock::new
+    );
+
+    public static final RegistryObject<Block> FISHTRAP_CHERRY = registerBlock(
+            Reference.UnlocalizedName.FISHTRAP_CHERRY,
+            FishtrapBlock::new
+    );
+
+    public static final RegistryObject<Block> FISHTRAP_CRIMSON = registerBlock(
+            Reference.UnlocalizedName.FISHTRAP_CRIMSON,
+            FishtrapBlock::new
+    );
+
+    public static final RegistryObject<Block> FISHTRAP_MANGROVE = registerBlock(
+            Reference.UnlocalizedName.FISHTRAP_MANGROVE,
+            FishtrapBlock::new
+    );
+
+    public static final RegistryObject<Block> FISHTRAP_WARPED = registerBlock(
+            Reference.UnlocalizedName.FISHTRAP_WARPED,
+            FishtrapBlock::new
+    );
+
     public static final RegistryObject<Block> SPAWNEGGTRAP = registerBlock(
             Reference.UnlocalizedName.SPAWNEGGTRAP,
             SpawnEggTrapBlock::new

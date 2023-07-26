@@ -21,6 +21,12 @@ public class Reference {
         public static final String FISHTRAP_JUNGLE = "fishtrap_jungle";
         public static final String FISHTRAP_DARK_OAK = "fishtrap_dark_oak";
         public static final String FISHTRAP_BIRCH = "fishtrap_birch";
+        public static final String FISHTRAP_BAMBOO = "fishtrap_bamboo";
+        public static final String FISHTRAP_CHERRY = "fishtrap_cherry";
+        public static final String FISHTRAP_CRIMSON = "fishtrap_crimson";
+        public static final String FISHTRAP_MANGROVE = "fishtrap_mangrove";
+        public static final String FISHTRAP_WARPED = "fishtrap_warped";
+
         public static final String SPAWNEGGTRAP = "spawneggtrap";
         public static final String TAG_FISHING_BAIT = "fishing_bait";
 

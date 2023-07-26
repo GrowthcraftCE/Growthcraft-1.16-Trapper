@@ -22,7 +22,12 @@ public class GrowthcraftTrapperBlockEntities {
                     GrowthcraftTrapperBlocks.FISHTRAP_DARK_OAK.get(),
                     GrowthcraftTrapperBlocks.FISHTRAP_OAK.get(),
                     GrowthcraftTrapperBlocks.FISHTRAP_JUNGLE.get(),
-                    GrowthcraftTrapperBlocks.FISHTRAP_SPRUCE.get()
+                    GrowthcraftTrapperBlocks.FISHTRAP_SPRUCE.get(),
+                    GrowthcraftTrapperBlocks.FISHTRAP_BAMBOO.get(),
+                    GrowthcraftTrapperBlocks.FISHTRAP_CHERRY.get(),
+                    GrowthcraftTrapperBlocks.FISHTRAP_CRIMSON.get(),
+                    GrowthcraftTrapperBlocks.FISHTRAP_MANGROVE.get(),
+                    GrowthcraftTrapperBlocks.FISHTRAP_WARPED.get()
 
             ).build(null)
     );
