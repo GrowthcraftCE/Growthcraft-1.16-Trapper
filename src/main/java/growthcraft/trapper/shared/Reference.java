@@ -12,8 +12,15 @@ public class Reference {
     private Reference() { /* Prevent default public constructor */ }
 
     public static class UnlocalizedName {
-        public static final String FISHTRAP = "fishtrap";
+        public static final String ANIMAL_TRAP = "animal_trap";
+        public static final String ANIMAL_TRAP_CONTAINER = "animal_trap_container";
 
+        public static final String ANIMAL_TRAP_COPPER = "animal_trap_copper";
+        public static final String ANIMAL_TRAP_DIAMOND = "animal_trap_diamond";
+        public static final String ANIMAL_TRAP_GOLD = "animal_trap_gold";
+        public static final String ANIMAL_TRAP_IRON = "animal_trap_iron";
+
+        public static final String FISHTRAP = "fishtrap";
         public static final String FISHTRAP_CONTAINER = "fishtrap_container";
         public static final String FISHTRAP_OAK = "fishtrap_oak";
         public static final String FISHTRAP_ACACIA = "fishtrap_acacia";
@@ -28,6 +35,7 @@ public class Reference {
         public static final String FISHTRAP_WARPED = "fishtrap_warped";
 
         public static final String SPAWNEGGTRAP = "spawneggtrap";
+
         public static final String TAG_FISHING_BAIT = "fishing_bait";
 
         public static final String SOUND_FISHTRAP_OPEN = "fishtrap_open";
@@ -38,10 +46,15 @@ public class Reference {
     }
 
     public static class LootTables {
-        public static final ResourceLocation SPAWNEGGTRAP_WHEAT = new ResourceLocation(Reference.MODID, "gameplay/trapping/spawneggtrap_wheat");
+
+        public static final ResourceLocation ANIMAL_TRAP_CARROT = new ResourceLocation(Reference.MODID, "gameplay/trapping/animal_trap_carrot");
+        public static final ResourceLocation ANIMAL_TRAP_LEAVES = new ResourceLocation(Reference.MODID, "gameplay/trapping/animal_trap_leaves");
+        public static final ResourceLocation ANIMAL_TRAP_SEEDS = new ResourceLocation(Reference.MODID, "gameplay/trapping/animal_trap_seeds");
+        public static final ResourceLocation ANIMAL_TRAP_WHEAT = new ResourceLocation(Reference.MODID, "gameplay/trapping/animal_trap_wheat");
         public static final ResourceLocation FISHTRAP_BAIT = new ResourceLocation(Reference.MODID, "gameplay/trapping/fishtrap_bait");
         public static final ResourceLocation FISHTRAP_BAIT_FORTUNE = new ResourceLocation(Reference.MODID, "gameplay/trapping/fishtrap_bait_fortune");
         public static final ResourceLocation FISHTRAP_BAIT_JUNK = new ResourceLocation(Reference.MODID, "gameplay/trapping/fishtrap_bait_junk");
+        public static final ResourceLocation SPAWNEGGTRAP_WHEAT = new ResourceLocation(Reference.MODID, "gameplay/trapping/spawneggtrap_wheat");
     }
 
 }

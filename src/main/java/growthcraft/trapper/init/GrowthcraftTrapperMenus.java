@@ -1,9 +1,6 @@
 package growthcraft.trapper.init;
 
-import growthcraft.trapper.screen.FishtrapMenu;
-import growthcraft.trapper.screen.FishtrapScreen;
-import growthcraft.trapper.screen.SpawnEggTrapMenu;
-import growthcraft.trapper.screen.SpawnEggTrapScreen;
+import growthcraft.trapper.screen.*;
 import growthcraft.trapper.shared.Reference;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -20,6 +17,9 @@ public class GrowthcraftTrapperMenus {
             ForgeRegistries.MENU_TYPES, Reference.MODID
     );
 
+    public static final RegistryObject<MenuType<AnimalTrapMenu>> ANIMAL_TRAP_MENU =
+            registerMenuType(Reference.UnlocalizedName.ANIMAL_TRAP_CONTAINER, AnimalTrapMenu::new);
+
     public static final RegistryObject<MenuType<FishtrapMenu>> FISHTRAP_MENU =
             registerMenuType(Reference.UnlocalizedName.FISHTRAP, FishtrapMenu::new);
 
@@ -32,6 +32,7 @@ public class GrowthcraftTrapperMenus {
     }
 
     public static void registerMenus() {
+        MenuScreens.register(ANIMAL_TRAP_MENU.get(), AnimalTrapScreen::new);
         MenuScreens.register(FISHTRAP_MENU.get(), FishtrapScreen::new);
         MenuScreens.register(SPAWNEGGTRAP_MENU.get(), SpawnEggTrapScreen::new);
     }

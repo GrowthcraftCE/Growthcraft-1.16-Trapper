@@ -40,6 +40,15 @@ public class BlockPropertiesUtils {
                 properties.isSuffocating(BlockPropertiesUtils::never);
                 properties.isViewBlocking(BlockPropertiesUtils::never);
             }
+            case "animal_trap" -> {
+                properties.sound(SoundType.CHAIN);
+                properties.strength(2.0F, 3.0F);
+                properties.noOcclusion();
+                properties.isValidSpawn(BlockPropertiesUtils::never);
+                properties.isRedstoneConductor(BlockPropertiesUtils::never);
+                properties.isSuffocating(BlockPropertiesUtils::never);
+                properties.isViewBlocking(BlockPropertiesUtils::never);
+            }
             default -> {
                 // Do nothing.
             }

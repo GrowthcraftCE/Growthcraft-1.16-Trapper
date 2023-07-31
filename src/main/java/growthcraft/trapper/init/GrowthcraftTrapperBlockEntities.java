@@ -1,5 +1,6 @@
 package growthcraft.trapper.init;
 
+import growthcraft.trapper.block.entity.AnimalTrapBlockEntity;
 import growthcraft.trapper.block.entity.FishtrapBlockEntity;
 import growthcraft.trapper.block.entity.SpawnEggTrapBlockEntity;
 import growthcraft.trapper.shared.Reference;
@@ -29,6 +30,16 @@ public class GrowthcraftTrapperBlockEntities {
                     GrowthcraftTrapperBlocks.FISHTRAP_MANGROVE.get(),
                     GrowthcraftTrapperBlocks.FISHTRAP_WARPED.get()
 
+            ).build(null)
+    );
+
+    public static final RegistryObject<BlockEntityType<AnimalTrapBlockEntity>> ANIMAL_TRAP_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            Reference.UnlocalizedName.ANIMAL_TRAP,
+            () -> BlockEntityType.Builder.of(AnimalTrapBlockEntity::new,
+                    GrowthcraftTrapperBlocks.ANIMAL_TRAP_IRON.get(),
+                    GrowthcraftTrapperBlocks.ANIMAL_TRAP_COPPER.get(),
+                    GrowthcraftTrapperBlocks.ANIMAL_TRAP_GOLD.get(),
+                    GrowthcraftTrapperBlocks.ANIMAL_TRAP_DIAMOND.get()
             ).build(null)
     );
 

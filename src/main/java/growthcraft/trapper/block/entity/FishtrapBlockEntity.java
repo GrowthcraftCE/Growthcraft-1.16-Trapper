@@ -31,6 +31,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -135,6 +136,8 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
             this.doFishing(blockPos);
             tickTimer = 0;
             tickCooldown = TickUtils.getRandomTickCooldown(minTickFishing, maxTickFishing);
+        } else if(tickCooldown == 0 && canDoFishing(level,blockPos)) {
+            tickCooldown = TickUtils.getRandomTickCooldown(minTickFishing, maxTickFishing);
         }
     }
 
@@ -212,7 +215,7 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
             for (int i = 1; i < itemStackHandler.getSlots(); i++) {
                 ItemStack storedItemStack = itemStackHandler.getStackInSlot(i);
                 if (itemStackHandler.getStackInSlot(i).isEmpty() || storedItemStack.getItem() == itemStack.getItem()) {
-                    itemStackHandler.insertItem(i, itemStack, false);
+                    itemStackHandler.setStackInSlot(i, new ItemStack(itemStack.getItem(), itemStackHandler.getStackInSlot(i).getCount() + 1));
                     break;
                 }
             }

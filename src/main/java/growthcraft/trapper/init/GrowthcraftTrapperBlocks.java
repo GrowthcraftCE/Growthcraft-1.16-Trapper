@@ -1,5 +1,6 @@
 package growthcraft.trapper.init;
 
+import growthcraft.trapper.block.AnimalTrapBlock;
 import growthcraft.trapper.block.FishtrapBlock;
 import growthcraft.trapper.block.SpawnEggTrapBlock;
 import growthcraft.trapper.shared.Reference;
@@ -17,6 +18,23 @@ import java.util.function.Supplier;
 public class GrowthcraftTrapperBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MODID);
+
+    public static final RegistryObject<Block> ANIMAL_TRAP_COPPER = registerBlock(
+            Reference.UnlocalizedName.ANIMAL_TRAP_COPPER,
+            () -> new AnimalTrapBlock(1)
+    );
+    public static final RegistryObject<Block> ANIMAL_TRAP_DIAMOND = registerBlock(
+            Reference.UnlocalizedName.ANIMAL_TRAP_DIAMOND,
+            () -> new AnimalTrapBlock(4)
+    );
+    public static final RegistryObject<Block> ANIMAL_TRAP_GOLD = registerBlock(
+            Reference.UnlocalizedName.ANIMAL_TRAP_GOLD,
+            () -> new AnimalTrapBlock(3)
+    );
+    public static final RegistryObject<Block> ANIMAL_TRAP_IRON = registerBlock(
+            Reference.UnlocalizedName.ANIMAL_TRAP_IRON,
+            () -> new AnimalTrapBlock(2)
+    );
 
     public static final RegistryObject<Block> FISHTRAP_OAK = registerBlock(
             Reference.UnlocalizedName.FISHTRAP_OAK,
