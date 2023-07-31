@@ -1,9 +1,11 @@
 package growthcraft.trapper.block.entity;
 
 import growthcraft.trapper.GrowthcraftTrapper;
+import growthcraft.trapper.block.FishtrapBlock;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
 import growthcraft.trapper.init.GrowthcraftTrapperTags;
 import growthcraft.trapper.init.config.GrowthcraftTrapperConfig;
+import growthcraft.trapper.lib.handler.WrappedInventoryHandler;
 import growthcraft.trapper.lib.utils.BlockStateUtils;
 import growthcraft.trapper.lib.utils.TickUtils;
 import growthcraft.trapper.screen.FishtrapMenu;
@@ -60,10 +62,53 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
         protected void onContentsChanged(int slot) {
             setChanged();
         }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return switch (slot) {
+                case 0 -> true;
+                default -> false;
+            };
+        }
     };
+
     private int tickTimer = 0;
     private int tickCooldown = 0;
     private LazyOptional<IItemHandler> itemHandlerLazyOptional = LazyOptional.empty();
+
+    private final Map<Direction, LazyOptional<WrappedInventoryHandler>> directionWrappedHandlerMap =
+            Map.of(
+                    Direction.UP, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    ),
+                    Direction.DOWN, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (i) -> i >= 1,
+                            (i, s) -> false)
+                    ),
+                    Direction.NORTH, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    ),
+                    Direction.SOUTH, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    ),
+                    Direction.EAST, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    ),
+                    Direction.WEST, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    )
+            );
 
     private Component customName;
 
@@ -249,7 +294,11 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return itemHandlerLazyOptional.cast();
+            if(side == null) return itemHandlerLazyOptional.cast();
+
+            if(directionWrappedHandlerMap.containsKey(side)) {
+                return directionWrappedHandlerMap.get(side).cast();
+            }
         }
         return super.getCapability(cap, side);
     }

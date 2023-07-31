@@ -3,6 +3,7 @@ package growthcraft.trapper.block.entity;
 import growthcraft.trapper.GrowthcraftTrapper;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
 import growthcraft.trapper.init.config.GrowthcraftTrapperConfig;
+import growthcraft.trapper.lib.handler.WrappedInventoryHandler;
 import growthcraft.trapper.lib.utils.BlockStateUtils;
 import growthcraft.trapper.lib.utils.TickUtils;
 import growthcraft.trapper.screen.SpawnEggTrapMenu;
@@ -64,9 +65,51 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
         protected void onContentsChanged(int slot) {
             setChanged();
         }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return switch (slot) {
+                case 0 -> true;
+                default -> false;
+            };
+        }
     };
 
     private LazyOptional<IItemHandler> itemHandlerLazyOptional = LazyOptional.empty();
+
+    private final Map<Direction, LazyOptional<WrappedInventoryHandler>> directionWrappedHandlerMap =
+            Map.of(
+                    Direction.UP, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    ),
+                    Direction.DOWN, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (i) -> i >= 1,
+                            (i, s) -> false)
+                    ),
+                    Direction.NORTH, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    ),
+                    Direction.SOUTH, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    ),
+                    Direction.EAST, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    ),
+                    Direction.WEST, LazyOptional.of(() -> new WrappedInventoryHandler(
+                            itemStackHandler,
+                            (index) -> index == 0,
+                            (index, stack) -> itemStackHandler.isItemValid(0, stack))
+                    )
+            );
 
     public SpawnEggTrapBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(GrowthcraftTrapperBlockEntities.SPAWNEGGTRAP_BLOCK_ENTITY.get(), blockPos, blockState);
@@ -239,7 +282,11 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return itemHandlerLazyOptional.cast();
+            if(side == null) return itemHandlerLazyOptional.cast();
+
+            if(directionWrappedHandlerMap.containsKey(side)) {
+                return directionWrappedHandlerMap.get(side).cast();
+            }
         }
         return super.getCapability(cap, side);
     }
