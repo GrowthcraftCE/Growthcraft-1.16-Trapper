@@ -1,8 +1,8 @@
 package growthcraft.trapper.block.entity;
 
-import growthcraft.lib.utils.BlockStateUtils;
-import growthcraft.lib.utils.TickUtils;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
+import growthcraft.trapper.lib.utils.BlockStateUtils;
+import growthcraft.trapper.lib.utils.TickUtils;
 import growthcraft.trapper.screen.SpawnEggTrapMenu;
 import growthcraft.trapper.shared.Reference;
 import net.minecraft.core.BlockPos;
