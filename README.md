@@ -1,7 +1,7 @@
 ![Growthcraft Trapper](https://raw.githubusercontent.com/GrowthcraftCE/Growthcraft-Trapper/1.16/src/main/resources/growthcraft_fishtrap_logo.png)
 
 # Growthcraft Trapper 7 for Minecraft 1.18 (Forge)
-[![Version](https://img.shields.io/badge/Growthcraft-7.0.0-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-Trapper)
+[![Version](https://img.shields.io/badge/Growthcraft-7.0.1-orange.svg)](https://github.com/GrowthcraftCE/Growthcraft-Trapper)
 [![](http://cf.way2muchnoise.eu/versions/growthcraft-community-edition_latest.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![](http://cf.way2muchnoise.eu/short_growthcraft-community-edition.svg)](https://minecraft.curseforge.com/projects/growthcraft-community-edition/)
 [![Forge](https://img.shields.io/badge/Minecraft%20Forge-40.1.0-yellow.svg)](http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.18.2.html)
@@ -19,8 +19,8 @@ To Be Written
 
 ### Growthcraft Trapper 7 (Minecraft 1.18.2)
 End of Support: TBD  
-Latest Version: 7.0.0  
-Stable Version: 7.0.0  
+Latest Version: 7.0.1 
+Stable Version: 7.0.1  
 
 ### Growthcraft Trapper 6 (Minecraft 1.16.5)
 End of Support: TBD  
