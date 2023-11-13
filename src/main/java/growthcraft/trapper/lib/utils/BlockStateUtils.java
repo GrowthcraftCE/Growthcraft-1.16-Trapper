@@ -1,4 +1,4 @@
-package growthcraft.lib.utils;
+package growthcraft.trapper.lib.utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

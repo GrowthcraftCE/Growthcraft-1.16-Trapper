@@ -1,4 +1,4 @@
-package growthcraft.lib.utils;
+package growthcraft.trapper.lib.utils;
 
 import java.security.SecureRandom;
 
