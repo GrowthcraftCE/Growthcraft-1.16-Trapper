@@ -294,8 +294,7 @@ public class AnimalTrapBlockEntity extends BlockEntity implements BlockEntityTic
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new AnimalTrapMenu(containerId, inventory,
-                new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.getBlockPos()));
+        return new AnimalTrapMenu(containerId, inventory, this);
     }
 
     @NotNull
