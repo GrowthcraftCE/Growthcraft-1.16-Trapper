@@ -2,6 +2,7 @@ package growthcraft.trapper.block.entity;
 
 import growthcraft.trapper.GrowthcraftTrapper;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
+import growthcraft.trapper.init.GrowthcraftTrapperLootTables;
 import growthcraft.trapper.init.config.GrowthcraftTrapperConfig;
 import growthcraft.trapper.lib.handler.WrappedInventoryHandler;
 import growthcraft.trapper.lib.utils.BlockStateUtils;
@@ -10,12 +11,14 @@ import growthcraft.trapper.screen.SpawnEggTrapMenu;
 import growthcraft.trapper.shared.Reference;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -160,7 +163,6 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
 
         ItemStack baitItemStack = itemStackHandler.getStackInSlot(0);
 
-        LootDataManager lootDataManager = Objects.requireNonNull(level.getServer()).getLootData();
         LootTable lootTable;
 
         String lootTableType = "";
@@ -174,10 +176,10 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
 
         switch (lootTableType) {
             case "wheat":
-                lootTable = lootDataManager.getElement(LootDataType.TABLE, Reference.LootTables.SPAWNEGGTRAP_WHEAT);
+                lootTable = Objects.requireNonNull(level.getServer().reloadableRegistries()).getLootTable(GrowthcraftTrapperLootTables.SPAWNEGGTRAP_WHEAT);
                 break;
             default:
-                lootTable = lootDataManager.getElement(LootDataType.TABLE, BuiltInLootTables.EMPTY);
+                lootTable = Objects.requireNonNull(level.getServer().reloadableRegistries()).getLootTable(BuiltInLootTables.EMPTY);
         }
 
         // If loot table is null, fail now.
@@ -220,30 +222,30 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return this.serializeNBT();
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        return this.serializeCaps();
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        this.load(tag);
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
+        this.loadAdditional(tag, provider);
     }
 
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.loadAdditional(nbt, provider);
         itemStackHandler.deserializeNBT(nbt.getCompound("inventory"));
         this.tickTimer = nbt.getInt("tickTimer");
         this.tickCooldown = nbt.getInt("tickCooldown");
 
         if (nbt.contains("CustomName", 8)) {
-            this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
+            this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"), provider);
         }
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        this.load(pkt.getTag());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
+        this.loadAdditional(pkt.getTag(), provider);
     }
 
     @Override
@@ -259,14 +261,14 @@ public class SpawnEggTrapBlockEntity extends BlockEntity implements BlockEntityT
     }
 
     @Override
-    protected void saveAdditional(CompoundTag nbt) {
+    protected void saveAdditional(CompoundTag nbt, HolderLookup .Provider provider) {
         nbt.put("inventory", itemStackHandler.serializeNBT());
         nbt.putInt("tickTimer", this.tickTimer);
         nbt.putInt("tickCooldown", this.tickCooldown);
         if (this.customName != null) {
-            nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
+            nbt.putString("CustomName", Component.Serializer.toJson(this.customName, provider));
         }
-        super.saveAdditional(nbt);
+        super.saveAdditional(nbt, provider);
     }
 
     @Override

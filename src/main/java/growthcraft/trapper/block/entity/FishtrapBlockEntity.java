@@ -11,6 +11,7 @@ import growthcraft.trapper.lib.utils.TickUtils;
 import growthcraft.trapper.screen.FishtrapMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -181,8 +182,6 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
         // Check for any bait in slot 0
         ItemStack baitItemStack = itemStackHandler.getStackInSlot(0);
 
-        LootDataManager lootDataManager = Objects.requireNonNull(level.getServer()).getLootData();
-
         LootTable lootTable;
 
         int luck = 0;
@@ -192,15 +191,15 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
 
         if (baitItemStack.is(GrowthcraftTrapperTags.Items.FISHTRAP_BAIT_FORTUNE)) {
             luck = 3;
-            fishingRod.enchant(Enchantments.FISHING_LUCK, luck);
+            fishingRod.enchant(Enchantments.LUCK_OF_THE_SEA, luck);
             // Fish from the Treasure Loot Table
-            lootTable = lootDataManager.getElement(LootDataType.TABLE, BuiltInLootTables.FISHING_TREASURE);
+            lootTable = Objects.requireNonNull(level.getServer().reloadableRegistries()).getLootTable(BuiltInLootTables.FISHING_TREASURE);
         } else if (baitItemStack.is(GrowthcraftTrapperTags.Items.FISHTRAP_BAIT)) {
             // Fish from the Standard Loot Table
-            lootTable = lootDataManager.getElement(LootDataType.TABLE, BuiltInLootTables.FISHING);
+            lootTable = Objects.requireNonNull(level.getServer().reloadableRegistries()).getLootTable(BuiltInLootTables.FISHING);
         } else {
             // Fish from the Junk Loot Table
-            lootTable = lootDataManager.getElement(LootDataType.TABLE, BuiltInLootTables.FISHING_JUNK);
+            lootTable = Objects.requireNonNull(level.getServer().reloadableRegistries()).getLootTable(BuiltInLootTables.FISHING_JUNK);
         }
 
         LootParams lootContext = new LootParams.Builder((ServerLevel) level)
@@ -234,29 +233,29 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return this.serializeNBT();
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        return this.serializeCaps();
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        this.load(tag);
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
+        this.loadAdditional(tag, provider);
     }
 
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.loadAdditional(nbt, provider);
         itemStackHandler.deserializeNBT(nbt.getCompound("inventory"));
         this.tickTimer = nbt.getInt("tickTimer");
         this.tickCooldown = nbt.getInt("tickCooldown");
         if (nbt.contains("CustomName", 8)) {
-            this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"));
+            this.customName = Component.Serializer.fromJson(nbt.getString("CustomName"), provider);
         }
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        this.load(pkt.getTag());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
+        this.loadWithComponents(pkt.getTag(), provider);
     }
 
     @Override
@@ -272,14 +271,15 @@ public class FishtrapBlockEntity extends BlockEntity implements BlockEntityTicke
     }
 
     @Override
-    protected void saveAdditional(CompoundTag nbt) {
+    protected void saveAdditional(CompoundTag nbt, HolderLookup .Provider provider) {
+        super.saveAdditional(nbt, provider);
+
         nbt.put("inventory", itemStackHandler.serializeNBT());
         nbt.putInt("tickTimer", this.tickTimer);
         nbt.putInt("tickCooldown", this.tickCooldown);
         if (this.customName != null) {
-            nbt.putString("CustomName", Component.Serializer.toJson(this.customName));
+            nbt.putString("CustomName", Component.Serializer.toJson(this.customName, provider));
         }
-        super.saveAdditional(nbt);
     }
 
     @Override
