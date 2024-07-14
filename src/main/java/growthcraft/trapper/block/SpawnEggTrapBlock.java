@@ -43,18 +43,27 @@ public class SpawnEggTrapBlock extends BaseEntityBlock implements SimpleWaterlog
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        if (!level.isClientSide) {
+        BlockEntity blockEntity = level.getBlockEntity(blockPos);
+
+        if(!(blockEntity instanceof SpawnEggTrapBlockEntity spawnEggTrapBlockEntity))
+            return InteractionResult.PASS;
+
+        if(level.isClientSide)
+            return InteractionResult.SUCCESS;
+
+        try {
             // Play sound
             level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
-            // Open the menu container
-            try {
-                this.openContainer(level, blockPos, player);
-            } catch (Exception ex) {
-                GrowthcraftTrapper.LOGGER.error(ex.getMessage());
+            // Open the Menu Container
+            if(player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(spawnEggTrapBlockEntity, blockPos);
             }
+        } catch (Exception ex) {
+            GrowthcraftTrapper.LOGGER.error(String.format("%s unable to open SpawnEggTrapBlockEntity GUI at %s.", player.getDisplayName().getString(), blockPos));
+            GrowthcraftTrapper.LOGGER.error(ex.getMessage());
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionResult.CONSUME;
     }
 
     /**
