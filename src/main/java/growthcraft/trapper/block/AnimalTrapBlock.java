@@ -1,5 +1,6 @@
 package growthcraft.trapper.block;
 
+import com.mojang.serialization.MapCodec;
 import growthcraft.trapper.GrowthcraftTrapper;
 import growthcraft.trapper.block.entity.AnimalTrapBlockEntity;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
@@ -9,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -33,37 +32,45 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class AnimalTrapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
+    public static final MapCodec<AnimalTrapBlock> CODEC = simpleCodec(AnimalTrapBlock::new);
     private int processingFactor = 1;
 
-    public AnimalTrapBlock() {
-        this(1);
+    public AnimalTrapBlock(Properties properties) {
+        this(1, properties);
     }
 
     public AnimalTrapBlock(int processingFactor) {
-        super(BlockPropertiesUtils.getInitProperties("animal_trap", Blocks.IRON_BLOCK));
+        this(processingFactor, BlockPropertiesUtils.getInitProperties("animal_trap", Blocks.IRON_BLOCK));
+    }
+
+    public AnimalTrapBlock(int processingFactor, Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
         this.processingFactor = processingFactor;
+    }
+
+    @Override
+    public MapCodec<AnimalTrapBlock> codec() {
+        return CODEC;
     }
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         BlockEntity blockEntity = level.getBlockEntity(blockPos);
 
-        if(!(blockEntity instanceof AnimalTrapBlockEntity animalTrapBlockEntity))
+        if (!(blockEntity instanceof AnimalTrapBlockEntity animalTrapBlockEntity))
             return InteractionResult.PASS;
 
-        if(level.isClientSide)
+        if (level.isClientSide)
             return InteractionResult.SUCCESS;
 
         try {
             // Play sound
             level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
             // Open the Menu Container
-            if(player instanceof ServerPlayer serverPlayer) {
+            if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.openMenu(animalTrapBlockEntity, blockPos);
             }
         } catch (Exception ex) {
@@ -84,7 +91,7 @@ public class AnimalTrapBlock extends BaseEntityBlock implements SimpleWaterlogge
     protected void openContainer(Level level, BlockPos blockPos, Player player) {
         BlockEntity blockentity = level.getBlockEntity(blockPos);
         if (blockentity instanceof AnimalTrapBlockEntity) {
-            player.openMenu((MenuProvider)blockentity);
+            player.openMenu((MenuProvider) blockentity);
         }
     }
 
@@ -151,4 +158,5 @@ public class AnimalTrapBlock extends BaseEntityBlock implements SimpleWaterlogge
     public int getProcessingFactor() {
         return processingFactor;
     }
+
 }

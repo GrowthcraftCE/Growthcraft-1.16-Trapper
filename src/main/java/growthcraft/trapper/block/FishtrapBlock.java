@@ -1,7 +1,7 @@
 package growthcraft.trapper.block;
 
+import com.mojang.serialization.MapCodec;
 import growthcraft.trapper.GrowthcraftTrapper;
-import growthcraft.trapper.block.entity.AnimalTrapBlockEntity;
 import growthcraft.trapper.block.entity.FishtrapBlockEntity;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
 import growthcraft.trapper.utils.BlockPropertiesUtils;
@@ -34,29 +34,38 @@ import org.jetbrains.annotations.Nullable;
 public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
-
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final MapCodec<FishtrapBlock> CODEC = simpleCodec(FishtrapBlock::new);
 
     public FishtrapBlock() {
-        super(BlockPropertiesUtils.getInitProperties("fishtrap_wooden", Blocks.OAK_PLANKS));
+        this(BlockPropertiesUtils.getInitProperties("fishtrap_wooden", Blocks.OAK_PLANKS));
+    }
+
+    public FishtrapBlock(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+    }
+
+    @Override
+    protected MapCodec<FishtrapBlock> codec() {
+        return CODEC;
     }
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         BlockEntity blockEntity = level.getBlockEntity(blockPos);
 
-        if(!(blockEntity instanceof FishtrapBlockEntity fishtrapBlockEntity))
+        if (!(blockEntity instanceof FishtrapBlockEntity fishtrapBlockEntity))
             return InteractionResult.PASS;
 
-        if(level.isClientSide)
+        if (level.isClientSide)
             return InteractionResult.SUCCESS;
 
         try {
             // Play sound
             level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
             // Open the Menu Container
-            if(player instanceof ServerPlayer serverPlayer) {
+            if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.openMenu(fishtrapBlockEntity, blockPos);
             }
         } catch (Exception ex) {
@@ -77,7 +86,7 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
     protected void openContainer(Level level, BlockPos blockPos, Player player) {
         BlockEntity blockentity = level.getBlockEntity(blockPos);
         if (blockentity instanceof FishtrapBlockEntity) {
-            player.openMenu((MenuProvider)blockentity);
+            player.openMenu((MenuProvider) blockentity);
         }
     }
 
@@ -123,7 +132,7 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
         return createTickerHelper(
                 blockEntityType,
                 GrowthcraftTrapperBlockEntities.FISHTRAP_BLOCK_ENTITY.get(),
-                (worldLevel, pos, state, blockEntity) -> ((FishtrapBlockEntity) blockEntity).tick()
+                (worldLevel, pos, state, blockEntity) -> blockEntity.tick()
         );
     }
 
@@ -134,7 +143,7 @@ public class FishtrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
                 FishtrapBlockEntity blockEntity = (FishtrapBlockEntity) level.getBlockEntity(blockPos);
                 blockEntity.dropItems();
             } catch (Exception ex) {
-                GrowthcraftTrapper.LOGGER.error(String.format("Invalid blockEntity type at %s, expected FishtrapBlockEntity", blockPos.toString()));
+                GrowthcraftTrapper.LOGGER.error(String.format("Invalid blockEntity type at %s, expected FishtrapBlockEntity", blockPos));
             }
         }
         super.onRemove(blockState, level, blockPos, newBlockState, isMoving);

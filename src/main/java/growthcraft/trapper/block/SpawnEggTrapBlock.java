@@ -1,7 +1,7 @@
 package growthcraft.trapper.block;
 
+import com.mojang.serialization.MapCodec;
 import growthcraft.trapper.GrowthcraftTrapper;
-import growthcraft.trapper.block.entity.AnimalTrapBlockEntity;
 import growthcraft.trapper.block.entity.SpawnEggTrapBlockEntity;
 import growthcraft.trapper.init.GrowthcraftTrapperBlockEntities;
 import growthcraft.trapper.utils.BlockPropertiesUtils;
@@ -35,27 +35,37 @@ public class SpawnEggTrapBlock extends BaseEntityBlock implements SimpleWaterlog
 
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final MapCodec<SpawnEggTrapBlock> CODEC = simpleCodec(SpawnEggTrapBlock::new);
 
     public SpawnEggTrapBlock() {
-        super(BlockPropertiesUtils.getInitProperties("spawneggtrap", Blocks.NETHERITE_BLOCK));
+        this(BlockPropertiesUtils.getInitProperties("spawneggtrap", Blocks.NETHERITE_BLOCK));
+    }
+
+    public SpawnEggTrapBlock(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+    }
+
+    @Override
+    public MapCodec<SpawnEggTrapBlock> codec() {
+        return CODEC;
     }
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         BlockEntity blockEntity = level.getBlockEntity(blockPos);
 
-        if(!(blockEntity instanceof SpawnEggTrapBlockEntity spawnEggTrapBlockEntity))
+        if (!(blockEntity instanceof SpawnEggTrapBlockEntity spawnEggTrapBlockEntity))
             return InteractionResult.PASS;
 
-        if(level.isClientSide)
+        if (level.isClientSide)
             return InteractionResult.SUCCESS;
 
         try {
             // Play sound
             level.playSound(player, blockPos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
             // Open the Menu Container
-            if(player instanceof ServerPlayer serverPlayer) {
+            if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.openMenu(spawnEggTrapBlockEntity, blockPos);
             }
         } catch (Exception ex) {
@@ -76,7 +86,7 @@ public class SpawnEggTrapBlock extends BaseEntityBlock implements SimpleWaterlog
     protected void openContainer(Level level, BlockPos blockPos, Player player) {
         BlockEntity blockentity = level.getBlockEntity(blockPos);
         if (blockentity instanceof SpawnEggTrapBlockEntity) {
-            player.openMenu((MenuProvider)blockentity);
+            player.openMenu((MenuProvider) blockentity);
         }
     }
 
