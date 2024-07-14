@@ -23,10 +23,24 @@ public class AnimalTrapMenu extends AbstractContainerMenu {
 
     private final Level level;
 
+    /**
+     * The ClientSide AnimalTrapMenu constructor.
+     *
+     * @param containerId The ID of the container.
+     * @param inventory The player's inventory.
+     * @param extraData Extra data provided as a FriendlyByteBuf.
+     */
     public AnimalTrapMenu(int containerId, Inventory inventory, FriendlyByteBuf extraData) {
         this(containerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()));
     }
 
+    /**
+     * The Server-Side AnimalTrapMenu constructor.
+     *
+     * @param containerId The ID of the container.
+     * @param inventory The player's inventory.
+     * @param blockEntity The block entity associated with the menu.
+     */
     public AnimalTrapMenu(int containerId, Inventory inventory, BlockEntity blockEntity) {
         super(GrowthcraftTrapperMenus.ANIMAL_TRAP_MENU.get(), containerId);
 

@@ -79,7 +79,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    runtimeOnly fg.deobf("curse.maven:theoneprobe-${curseforge_theoneprobe}")
+    //runtimeOnly fg.deobf("curse.maven:theoneprobe-${curseforge_theoneprobe}")
     runtimeOnly fg.deobf("curse.maven:jei-${curseforge_jei}")
 }
 

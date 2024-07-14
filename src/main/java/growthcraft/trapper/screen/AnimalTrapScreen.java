@@ -32,7 +32,7 @@ public class AnimalTrapScreen extends AbstractContainerScreen<AnimalTrapMenu> {
 
     @Override
     public void render(GuiGraphics poseStack, int mouseX, int mouseY, float delta) {
-        renderBackground(poseStack);
+        renderBackground(poseStack, mouseX, mouseY, delta);
         super.render(poseStack, mouseX, mouseY, delta);
         renderTooltip(poseStack, mouseX, mouseY);
     }

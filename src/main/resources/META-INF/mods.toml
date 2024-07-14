@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[45,)"
+loaderVersion = "[48,)"
 license = "GNU General Public License v3.0"
 issueTrackerURL = "https://github.com/GrowthcraftCE/Growthcraft-Trapper/issues"
 
@@ -21,18 +21,17 @@ versionRange = "${forge_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${ mod_id }]]
+[[dependencies.${mod_id}]]
 modId = "minecraft"
 mandatory = true
-# This version range declares a minimum of the current minecraft version up to but not including the next major version
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${ mod_id }]]
+[[dependencies.${mod_id}]]
 modId = "growthcraft"
 mandatory = false
-versionRange = "[9,)"
+versionRange = "[1.20.2,)"
 ordering = "AFTER"
 side = "BOTH"
 

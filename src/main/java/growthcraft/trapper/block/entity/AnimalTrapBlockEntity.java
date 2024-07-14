@@ -9,10 +9,12 @@ import growthcraft.trapper.lib.utils.BlockStateUtils;
 import growthcraft.trapper.lib.utils.TickUtils;
 import growthcraft.trapper.screen.AnimalTrapMenu;
 import growthcraft.trapper.shared.Reference;
+import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -292,7 +294,8 @@ public class AnimalTrapBlockEntity extends BlockEntity implements BlockEntityTic
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-        return new AnimalTrapMenu(containerId, inventory, this);
+        return new AnimalTrapMenu(containerId, inventory,
+                new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.getBlockPos()));
     }
 
     @NotNull

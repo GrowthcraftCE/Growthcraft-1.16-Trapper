@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.block.Blocks;
 
 public class SpawnEggTrapScreen extends AbstractContainerScreen<SpawnEggTrapMenu> {
 
@@ -32,7 +33,7 @@ public class SpawnEggTrapScreen extends AbstractContainerScreen<SpawnEggTrapMenu
 
     @Override
     public void render(GuiGraphics poseStack, int mouseX, int mouseY, float delta) {
-        renderBackground(poseStack);
+        renderBackground(poseStack, mouseX, mouseY, delta);
         super.render(poseStack, mouseX, mouseY, delta);
         renderTooltip(poseStack, mouseX, mouseY);
     }
