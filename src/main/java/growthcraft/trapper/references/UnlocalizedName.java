@@ -34,7 +34,8 @@ public class UnlocalizedName {
     public static final String TAG_FISHING_BAIT = "fishing_bait";
 
     public static final String SOUND_FISHTRAP_OPEN = "fishtrap_open";
-    public static final String CREATIVE_TAB = "tab";
+    public static final String CREATIVE_TAB = "growthcraft";
+    public static final String CREATIVE_TAB_KEY = "itemGroup.growthcraft.tab";
 
     private UnlocalizedName() {
         /* Prevent automatic implementation of public constructor */

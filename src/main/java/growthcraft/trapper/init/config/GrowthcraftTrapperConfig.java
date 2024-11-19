@@ -1,5 +1,6 @@
-package growthcraft.trapper;
+package growthcraft.trapper.init.config;
 
+import growthcraft.trapper.GrowthcraftTrapper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
 // Demonstrates how to use Neo's config APIs
 @EventBusSubscriber(modid = GrowthcraftTrapper.MODID, bus = EventBusSubscriber.Bus.MOD)
-public class Config
+public class GrowthcraftTrapperConfig
 {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
@@ -34,9 +35,9 @@ public class Config
     // a list of strings that are treated as resource locations for items
     private static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
             .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), GrowthcraftTrapperConfig::validateItemName);
 
-    static final ModConfigSpec SPEC = BUILDER.build();
+    public static final ModConfigSpec SPEC = BUILDER.build();
 
     public static boolean logDirtBlock;
     public static int magicNumber;
