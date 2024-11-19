@@ -14,6 +14,11 @@ import static growthcraft.trapper.GrowthcraftTrapper.MODID;
 import static growthcraft.trapper.init.GrowthcraftTrapperItems.EXAMPLE_ITEM;
 import static growthcraft.trapper.references.UnlocalizedName.CREATIVE_TAB;
 
+/**
+ * GrowthcraftTrapperCreativeTabs is a utility class responsible for managing the registration of creative mode tabs
+ * for the Growthcraft mod in Minecraft. The class ensures that the predefined creative tab is registered and available
+ * for displaying custom items related to the mod.
+ */
 public class GrowthcraftTrapperCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
@@ -23,6 +28,11 @@ public class GrowthcraftTrapperCreativeTabs {
         /* Prevent automatic implementation of public constructor */
     }
 
+    /**
+     * Registers a new creative tab for the mod, or retrieves an existing one if it is already loaded.
+     *
+     * @return The creative tab for the Growthcraft mod.
+     */
     private static CreativeModeTab registerCreativeTab() {
         CreativeModeTab growthcraftTab;
 

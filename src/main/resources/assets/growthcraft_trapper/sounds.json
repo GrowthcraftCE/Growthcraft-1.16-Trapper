@@ -1,0 +1,9 @@
+{
+  "fishtrap_open": {
+    "category": "block",
+    "subtitle": "growthcraft_trapper.subtitle.fishtrap_open",
+    "sounds": [
+      "growthcraft_trapper:fishtrap_open"
+    ]
+  }
+}
