@@ -168,19 +168,13 @@ public class FishTrapBlock extends BaseEntityBlock implements SimpleWaterloggedB
         return !this.isMaxAge(blockState);
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, GrowthcraftTrapperBlockEntities.FISH_TRAP_BLOCK_ENTITY.get(), (worldLevel, pos, state, blockEntity) -> blockEntity.tick());
-    }
-
     @Override
     public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState newBlockState, boolean isMoving) {
         if (blockState.getBlock() != newBlockState.getBlock()) {
             try {
                 FishTrapBlockEntity blockEntity = (FishTrapBlockEntity) level.getBlockEntity(blockPos);
                 assert blockEntity != null;
-                blockEntity.dropItems();
+                //blockEntity.dropItems();
             } catch (Exception ex) {
                 GrowthcraftTrapper.LOGGER.error(String.format("Unable to drop inventory items: Invalid blockEntity type at %s, expected FishTrapBlockEntity", blockPos));
             }
