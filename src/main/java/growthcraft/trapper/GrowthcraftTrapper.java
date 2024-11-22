@@ -33,12 +33,7 @@ import static growthcraft.trapper.init.GrowthcraftTrapperItems.ITEMS;
 @Mod(GrowthcraftTrapper.MODID)
 public class GrowthcraftTrapper {
     public static final String MODID = "growthcraft_trapper";
-
-    // TODO: Move to init package
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
-    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
-
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     /**
      * Constructs a new instance of GrowthcraftTrapper. This constructor handles the registration of
@@ -62,7 +57,7 @@ public class GrowthcraftTrapper {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
+        LOGGER.info("Intializing common setup ...");
 
         if (GrowthcraftTrapperConfig.logDirtBlock)
             LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
